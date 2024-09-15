@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNDP Job Listings</title>
+</head>
+<body>
+    <h1>Available Jobs</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Post Level</th>
+                <th>Apply By</th>
+                <th>Location</th>
+                <th>URL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td>{{ job.title }}</td>
+                <td>{{ job.post_level }}</td>
+                <td>{{ job.apply_by }}</td>
+                <td>{{ job.location }}</td>
+                <td><a href="{{ job.url }}" target="_blank">Apply</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
