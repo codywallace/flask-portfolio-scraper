@@ -26,13 +26,13 @@ class UndpJobScraper(BaseScraper):
                 #Apply by date
                 apply_by = job.find_all('div', class_='vacanciesTable__cell')[3].find('span').text.strip()
                 #Convert date to ISO format
-                apply_by = datetime.strptime(apply_by, '%b-%d-%y').strftime('%Y-%m-%d')
+                apply_by = datetime.strptime(apply_by, '%b-%d-%y').date()
                 
                 #Location
                 location = job.find_all('div', class_='vacanciesTable__cell')[5].find('span').text.strip()
                 
                 #Only collect jobs where Post Level is 'P3'
-                if post_level in ['P3', 'IPSA-10']:
+                if post_level in ['P3', 'IPSA-10', 'International Consultant']:
                     #Check if the job already exists in the database
                     existing_job = session.query(Job).filter_by(title=title, location=location, apply_by=apply_by, url=url).first()
                     if not existing_job:
