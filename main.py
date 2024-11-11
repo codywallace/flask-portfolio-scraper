@@ -25,5 +25,3 @@ def home():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-#TODO: Add customised views for each job site
