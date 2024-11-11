@@ -16,15 +16,15 @@ class UnicefJobScraper(BaseScraper):
         for job in job_listings:
             try:
                 # Job Title and URL
-                title_tag = job.find('h4').find('a', class_='job-link')
+                title_tag = job.find_all('h4').find('a', class_='job-link')
                 title = title_tag.text.strip()
                 url = "https://jobs.unicef.org" + title_tag['href']  # Construct full URL
                 
                 # Location
-                location = job.find('span', class_='location').text.strip()
+                location = job.find_all('span', class_='location').text.strip()
                 
                 # Apply By Date
-                date_tag = job.find('span', class_='close-date').find('time')
+                date_tag = job.find_all('span', class_='close-date').find('time')
                 apply_by_str = date_tag['datetime'] if date_tag else ""
                 apply_by = datetime.strptime(apply_by_str, '%Y-%m-%dT%H:%M:%SZ').date()  # Convert to date format
                 
