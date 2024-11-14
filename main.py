@@ -23,7 +23,7 @@ def undp_jobs():
     # Fetch jobs from the database to display in the template
     session = SessionLocal()
     today = date.today()
-    jobs = session.query(Job).filter(Job.apply_by >= today).all()
+    jobs = session.query(Job).filter(Job.apply_by >= today, Job.source == "UNDP").all()
     session.close()
 
     return render_template('jobs_template.html', jobs=jobs, source='UNDP', post_level='P3')
@@ -37,7 +37,7 @@ def unicef_jobs():
     # Fetch jobs from the database to display in the template
     session = SessionLocal()
     today = date.today()
-    jobs = session.query(Job).filter(Job.apply_by >= today).all()
+    jobs = session.query(Job).filter(Job.apply_by >= today, Job.source == "UNICEF").all()
     session.close()
     
     return render_template('jobs_template.html', jobs=jobs, source='UNICEF', post_level='P3')

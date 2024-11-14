@@ -37,7 +37,8 @@ class UnicefJobScraper(BaseScraper):
                         post_level='P3',
                         apply_by=apply_by,
                         location=location,
-                        url=url
+                        url=url,
+                        source='UNICEF'
                     )
                     session.add(new_job)
                     session.commit()

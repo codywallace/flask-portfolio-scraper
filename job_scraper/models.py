@@ -15,4 +15,5 @@ class Job(Base):
     apply_by = Column(Date, nullable=False)
     location = Column(String, nullable=False)
     url = Column(String, nullable=False)
+    source = Column(String, nullable=False)
     

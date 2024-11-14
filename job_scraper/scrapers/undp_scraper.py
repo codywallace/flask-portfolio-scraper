@@ -32,7 +32,7 @@ class UndpJobScraper(BaseScraper):
                 location = job.find_all('div', class_='vacanciesTable__cell')[5].find('span').text.strip()
                 
                 #Only collect jobs where Post Level is 'P3'
-                if post_level in ['P3', 'IPSA-10', 'International Consultant']:
+                if post_level in ['P3', 'IPSA-10', 'IPSA-11','International Consultant']:
                     #Check if the job already exists in the database
                     existing_job = session.query(Job).filter_by(title=title, location=location, apply_by=apply_by, url=url).first()
                     if not existing_job:
@@ -42,7 +42,8 @@ class UndpJobScraper(BaseScraper):
                             post_level=post_level,
                             apply_by=apply_by,
                             location=location,
-                            url=url
+                            url=url,
+                            source='UNDP'
                         )
                         session.add(new_job)
                         session.commit()
