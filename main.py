@@ -1,9 +1,12 @@
 from flask import Flask, render_template
 from job_scraper.scrapers.undp_scraper import UndpJobScraper
 from job_scraper.scrapers.unicef_scraper import UnicefJobScraper
+from job_scraper.scrapers.un_secretariat_scraper import UnSecretariatScraper
 from job_scraper.database import init_db, SessionLocal
 from job_scraper.models import Job
+from job_scraper.config import UN_Secretariat_URL, UNDP_URL, UNICEF_URL
 from datetime import date
+
 
 app = Flask(__name__)
 
@@ -17,7 +20,7 @@ def home():
 @app.route('/undp-jobs')
 def undp_jobs():
     # Scrape jobs and store them in the database
-    scraper = UndpJobScraper('https://jobs.undp.org/cj_view_jobs.cfm')
+    scraper = UndpJobScraper(UNDP_URL)
     scraper.scrape_jobs()
 
     # Fetch jobs from the database to display in the template
@@ -31,7 +34,7 @@ def undp_jobs():
 @app.route('/unicef-jobs')
 def unicef_jobs():
     # Scrape jobs and store them in the database
-    scraper = UnicefJobScraper('https://jobs.unicef.org/en-us/filter/?search-keyword=&pay-scale=p-3')
+    scraper = UnicefJobScraper(UNICEF_URL)
     scraper.scrape_jobs()
     
     # Fetch jobs from the database to display in the template
@@ -41,6 +44,21 @@ def unicef_jobs():
     session.close()
     
     return render_template('jobs_template.html', jobs=jobs, source='UNICEF', post_level='P3')
+
+@app.route('/unsecretariat-jobs')
+def un_secretariat_jobs():
+    # Scrape jobs and store them in the database
+    scraper = UnSecretariatScraper(UN_Secretariat_URL)
+    scraper.scrape_jobs()
+    
+    # Fetch jobs from the database to display in the template
+    session = SessionLocal()
+    today = date.today()
+    post_level = 'P3'
+    jobs = session.query(Job).filter(Job.apply_by >= today, Job.source == "UN Secretariat").all()
+    session.close()
+    
+    return render_template('jobs_template.html', jobs=jobs, source='UN Secretariat', post_level=post_level)
 
 if __name__ == '__main__':
     app.run(debug=True)
