@@ -2,6 +2,7 @@ import json
 from job_scraper.database import init_db, SessionLocal
 from job_scraper.models import Job
 from job_scraper.scrapers.un_secretariat_scraper import UnSecretariatScraper
+from job_scraper.config import HEADERS_LIST, UN_Secretariat_URL
 
 def test_un_secretariat_scraper():
     # Initialize the database and clear the jobs table
@@ -9,9 +10,8 @@ def test_un_secretariat_scraper():
     session = SessionLocal()
     session.query(Job).delete()
     session.commit()
-
     # Create a scraper object
-    url = 'https://careers.un.org/jobopening?language=en&data=%257B%2522aoe%2522:%255B%255D,%2522aoi%2522:%255B%255D,%2522el%2522:%255B%255D,%2522ct%2522:%255B%255D,%2522ds%2522:%255B%2522NEWYORK%2522%255D,%2522jn%2522:%255B%255D,%2522jf%2522:%255B%255D,%2522jc%2522:%255B%2522PD%2522%255D,%2522jle%2522:%255B%2522100%2522%255D,%2522dept%2522:%255B%255D,%2522span%2522:%255B%255D%257D'
+    url = UN_Secretariat_URL
     scraper = UnSecretariatScraper(url)
 
     # Scrape the jobs and save to DB
