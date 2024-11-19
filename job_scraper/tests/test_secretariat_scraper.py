@@ -1,3 +1,9 @@
+
+from ..database import init_db, SessionLocal
+from ..models import Job
+from ..scrapers.un_secretariat_scraper import UnSecretariatScraper
+import json
+
 import json
 from job_scraper.database import init_db, SessionLocal
 from job_scraper.models import Job

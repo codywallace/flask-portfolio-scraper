@@ -4,7 +4,7 @@ from job_scraper.scrapers.unicef_scraper import UnicefJobScraper
 from job_scraper.scrapers.un_secretariat_scraper import UnSecretariatScraper
 from job_scraper.database import init_db, SessionLocal
 from job_scraper.models import Job
-from job_scraper.config import UN_Secretariat_URL, UNDP_URL, UNICEF_URL
+from job_scraper.config import HEADERS_LIST, UNDP_URL, UNICEF_URL, UN_Secretariat_URL
 from datetime import date
 
 

@@ -1,32 +1,30 @@
 import requests
 from bs4 import BeautifulSoup
 import random
-from config import HEADERS_LIST
+from job_scraper.config import HEADERS_LIST  # Import the headers list from config.py
 
 class BaseScraper:
     def __init__(self, url):
         self.url = url
-        self.headers_list = HEADERS_LIST
         self.soup = None
-        
+
     def fetch_page(self):
-        # Fetch the page and create a BeautifulSoup object from the given URL
-        
+        # Prepare the headers
         headers = {
-            'User-Agent': random.choice(self.headers_list),
+            'User-Agent': random.choice(HEADERS_LIST),  # Use the imported headers list
             'Referer': "https://www.careers.un.org"
         }
         
         try:
-            # Pass the headers in the request
+            # Send the HTTP GET request
             response = requests.get(self.url, headers=headers)
             if response.status_code == 200:
                 self.soup = BeautifulSoup(response.text, 'html.parser')
             else:
-                print(f"Failed to fetch the page. Status code: {response.status_code}")
+                print(f"Failed to fetch the page. Status code: {response.status_code} for URL: {self.url}")
                 self.soup = None
         except requests.RequestException as e:
-            print(f"Error fetching the page: {e}")
+            print(f"Error fetching the page for URL {self.url}: {e}")
             self.soup = None
         
     def parse_jobs(self):
@@ -39,5 +37,5 @@ class BaseScraper:
         if self.soup:
             return self.parse_jobs()
         else:
-            print("Failed to retrieve the page. Cannot scrape jobs.")
+            print(f"Failed to retrieve the page for URL: {self.url}. Cannot scrape jobs.")
             return []
